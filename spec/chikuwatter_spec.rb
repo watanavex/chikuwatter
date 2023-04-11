@@ -34,8 +34,8 @@ module Danger
         file_path = "#{File.dirname(__FILE__)}/fixtures/analyze.log"
         @my_plugin.inline_mode = true
         @my_plugin.report file_path
-        expect(@dangerfile.status_report[:warnings]).to eq(["warning • invalid_null_aware_operator: The receiver can't be null, so the null-aware operator '?.' is unnecessary", "info • deprecated_member_use: 'headline1' is deprecated and shouldn't be used. Use displayLarge instead. This feature was deprecated after v3.1.0-0.0.pre"])
-        expect(@dangerfile.status_report[:errors]).to eq(["error • argument_type_not_assignable: The argument type 'String?' can't be assigned to the parameter type 'String'"])
+        expect(@dangerfile.status_report[:warnings]).to eq(["warning • `invalid_null_aware_operator`\nThe receiver can't be null, so the null-aware operator '?.' is unnecessary", "info • `deprecated_member_use`\n'headline1' is deprecated and shouldn't be used. Use displayLarge instead. This feature was deprecated after v3.1.0-0.0.pre"])
+        expect(@dangerfile.status_report[:errors]).to eq(["error • `argument_type_not_assignable`\nThe argument type 'String?' can't be assigned to the parameter type 'String'"])
       end
     end
   end
