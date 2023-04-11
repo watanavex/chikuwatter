@@ -83,7 +83,9 @@ module Danger
 
         message = "#{type_str} • #{logs[3].strip!}: #{logs[1].strip!}"
 
-        report_data.push(ReportData.new(message, type, file, line_num))
+        report_data.push(
+          ReportData.new(message, type, file, line_num.to_i)
+        )
       end
 
       return report_data

@@ -15,13 +15,13 @@ gem danger-chikuwa
 Run flutter analyze and save the result to a file.
 
 ```
-$ flutter analyze > result.log
+$ flutter analyze 2>&1 | tee result.log
 ```
 
 Add the following to your Dangerfile.
 
 ```
-chikuwatter.report "result.log"
+chikuwatter.report "analyze.log"
 ```
 
 If `inline_mode` is true, the plugin will report the errors, warnings and **info** as inline comments.

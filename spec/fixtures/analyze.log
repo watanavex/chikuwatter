@@ -1,0 +1,7 @@
+Analyzing test...                                               
+
+  error • The argument type 'String?' can't be assigned to the parameter type 'String' • lib/main.dart:76:21 • argument_type_not_assignable
+warning • The receiver can't be null, so the null-aware operator '?.' is unnecessary • lib/main.dart:76:27 • invalid_null_aware_operator
+   info • 'headline1' is deprecated and shouldn't be used. Use displayLarge instead. This feature was deprecated after v3.1.0-0.0.pre • lib/main.dart:103:50 • deprecated_member_use
+
+3 issues found. (ran in 0.7s)

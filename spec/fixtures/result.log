@@ -1,5 +1,0 @@
-Analyzing master...                                             
-
-warning • warning message • lib/main.dart:10:10 • lint_rule
-  error • error message • lib/main.dart:10:10 • lint_rule
-   info • info message • lib/main.dart:10:10 • lint_rule
