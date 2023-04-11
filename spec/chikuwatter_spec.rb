@@ -18,29 +18,24 @@ module Danger
 
         # mock the PR data
         # you can then use this, eg. github.pr_author, later in the spec
-        json = File.read("#{File.dirname(__FILE__)}/support/fixtures/github_pr.json") # example json: `curl https://api.github.com/repos/danger/danger-plugin-template/pulls/18 > github_pr.json`
-        allow(@my_plugin.github).to receive(:pr_json).and_return(json)
+        # json = File.read("#{File.dirname(__FILE__)}/support/fixtures/github_pr.json") # example json: `curl https://api.github.com/repos/danger/danger-plugin-template/pulls/18 > github_pr.json`
+        # allow(@my_plugin.github).to receive(:pr_json).and_return(json)
       end
 
       # Some examples for writing tests
       # You should replace these with your own.
 
-      it "Warns on a monday" do
-        monday_date = Date.parse("2016-07-11")
-        allow(Date).to receive(:today).and_return monday_date
-
-        @my_plugin.warn_on_mondays
-
-        expect(@dangerfile.status_report[:warnings]).to eq(["Trying to merge code on a Monday"])
+      it "Errors on file not found" do
+        @my_plugin.report "no file"
+        expect(@dangerfile.status_report[:errors]).to eq(["analyze log file not found"])
       end
 
-      it "Does nothing on a tuesday" do
-        monday_date = Date.parse("2016-07-12")
-        allow(Date).to receive(:today).and_return monday_date
-
-        @my_plugin.warn_on_mondays
-
-        expect(@dangerfile.status_report[:warnings]).to eq([])
+      it "Report" do
+        file_path = "#{File.dirname(__FILE__)}/fixtures/result.log"
+        @my_plugin.inline_mode = true
+        @my_plugin.report file_path
+        expect(@dangerfile.status_report[:warnings]).to eq(["warning • lint_rule: warning message", "info • lint_rule: info message"])
+        expect(@dangerfile.status_report[:errors]).to eq(["error • lint_rule: error message"])
       end
     end
   end

@@ -1,0 +1,9 @@
+{
+    "github.copilot.inlineSuggest.enable": true,
+    "github.copilot.enable": {
+        "*": false,
+        "ruby": true,
+        "yaml": true,
+        "markdown": true,
+    }
+}

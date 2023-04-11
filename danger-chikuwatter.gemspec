@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name          = "danger-chikuwatter"
   spec.version       = Chikuwatter::VERSION
   spec.authors       = ["watanavex"]
-  spec.email         = ["y_watanabe@yumemi.co.jp"]
+  spec.email         = ["watanave.tech@gmail.com"]
   spec.description   = "A short description of danger-chikuwatter."
   spec.summary       = "A longer description of danger-chikuwatter."
   spec.homepage      = "https://github.com/watanavex/danger-chikuwatter"
