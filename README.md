@@ -1,15 +1,34 @@
 # danger-chikuwatter
 
-A description of danger-chikuwatter.
+Danger Plugin for reporting flutter analyze errors, warnings and **info**.
 
 ## Installation
 
-    $ gem install danger-chikuwatter
+Add this line to your Gemfile:
+
+```
+gem danger-chikuwa
+```
 
 ## Usage
 
-    Methods and attributes from this plugin are available in
-    your `Dangerfile` under the `chikuwatter` namespace.
+Run flutter analyze and save the result to a file.
+
+```
+$ flutter analyze > result.log
+```
+
+Add the following to your Dangerfile.
+
+```
+chikuwa.report "result.log"
+```
+
+If `inline_mode` is true, the plugin will report the errors, warnings and **info** as inline comments.
+
+```
+chikuwa.inline_mode = true
+```
 
 ## Development
 
