@@ -21,13 +21,13 @@ $ flutter analyze > result.log
 Add the following to your Dangerfile.
 
 ```
-chikuwa.report "result.log"
+chikuwatter.report "result.log"
 ```
 
 If `inline_mode` is true, the plugin will report the errors, warnings and **info** as inline comments.
 
 ```
-chikuwa.inline_mode = true
+chikuwatter.inline_mode = true
 ```
 
 ## Development
