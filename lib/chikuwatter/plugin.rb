@@ -14,7 +14,7 @@ module Danger
   #          chikuwatter.report = result.log
   #
   class DangerChikuwatter < Plugin
-    attr_accessor :project_root, :inline_mode
+    attr_accessor :project_root, :inline_mode, :analyze_log, :riverpod_lint_log
 
     # Project root directory
     def _project_root
@@ -28,14 +28,40 @@ module Danger
       @inline_mode || false
     end
 
+    # Analyze log file path
+    def _analyze_log
+      @analyze_log
+    end
+
+    # Riverpod lint log file path
+    def _riverpod_lint_log
+      @riverpod_lint_log
+    end
+
     # Report analyze results
-    def report(file_path)
-      if File.exist?(file_path)
-        results = parse_analyze_log(file_path)
-        send_reports(results)
-      else
-        fail "analyze log file not found"
+    def report
+      results = []
+      if !_analyze_log && !_riverpod_lint_log
+        fail "You must set report file path."
       end
+
+      if _analyze_log
+        if File.exist?(_analyze_log)
+          results += parse_analyze_log(_analyze_log)
+        else
+          fail "File not found: #{_analyze_log}"
+        end
+      end
+
+      if _riverpod_lint_log
+        if File.exist?(_riverpod_lint_log)
+          results += parse_riverpod_lint_log(_riverpod_lint_log)
+        else
+          fail "File not found: #{_riverpod_lint_log}"
+        end
+      end
+
+      send_reports(results)
     end
 
     # Output level
@@ -85,6 +111,28 @@ module Danger
 
         report_data.push(
           ReportData.new(message, type, file, line_num.to_i)
+        )
+      end
+
+      return report_data
+    end
+
+    # Parse riverpod_lint log
+    def parse_riverpod_lint_log(file_path)
+      _project_root = Dir.pwd
+      report_data = []
+      File.foreach(file_path) do |line|
+        logs = line.split("•")
+        # lib/presentation/screens/favorite_contents/favorite_contents_screen_view_model.dart:135:20 • Generated providers should only depend on other generated providers. Failing to do so may break rules such as "provider_dependencies". • avoid_manual_providers_as_generated_provider_dependency
+        if logs.length < 3
+          next
+        end
+
+        file, line_num = logs[0].strip!.split(":")
+        message = "riverpod_lint • `#{logs[2].strip!}`\n#{logs[1].strip!}"
+
+        report_data.push(
+          ReportData.new(message, Type::WARN, file, line_num.to_i)
         )
       end
 

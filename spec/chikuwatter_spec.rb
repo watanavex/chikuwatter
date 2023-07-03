@@ -25,17 +25,38 @@ module Danger
       # Some examples for writing tests
       # You should replace these with your own.
 
-      it "Errors on file not found" do
-        @my_plugin.report "no file"
-        expect(@dangerfile.status_report[:errors]).to eq(["analyze log file not found"])
+      it "Errors on analyze file not found" do
+        @my_plugin.analyze_log = "no file"
+        @my_plugin.report
+        expect(@dangerfile.status_report[:errors]).to eq(["File not found: no file"])
       end
 
-      it "Report" do
+      it "Errors on riverpod_lint file not found" do
+        @my_plugin.riverpod_lint_log = "no file"
+        @my_plugin.report
+        expect(@dangerfile.status_report[:errors]).to eq(["File not found: no file"])
+      end
+
+      it "Errors on missing parameters" do
+        @my_plugin.report
+        expect(@dangerfile.status_report[:errors]).to eq(["You must set report file path."])
+      end
+
+      it "Report Analyze results" do
         file_path = "#{File.dirname(__FILE__)}/fixtures/analyze.log"
         @my_plugin.inline_mode = true
-        @my_plugin.report file_path
+        @my_plugin.analyze_log = file_path
+        @my_plugin.report
         expect(@dangerfile.status_report[:warnings]).to eq(["warning • `invalid_null_aware_operator`\nThe receiver can't be null, so the null-aware operator '?.' is unnecessary", "info • `deprecated_member_use`\n'headline1' is deprecated and shouldn't be used. Use displayLarge instead. This feature was deprecated after v3.1.0-0.0.pre"])
         expect(@dangerfile.status_report[:errors]).to eq(["error • `argument_type_not_assignable`\nThe argument type 'String?' can't be assigned to the parameter type 'String'"])
+      end
+
+      it "Report Riverpod lint results" do
+        file_path = "#{File.dirname(__FILE__)}/fixtures/riverpod_lint.log"
+        @my_plugin.inline_mode = true
+        @my_plugin.riverpod_lint_log = file_path
+        @my_plugin.report
+        expect(@dangerfile.status_report[:warnings]).to eq(["riverpod_lint • `avoid_manual_providers_as_generated_provider_dependency`\nGenerated providers should only depend on other generated providers. Failing to do so may break rules such as \"provider_dependencies\"."])
       end
     end
   end
