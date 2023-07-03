@@ -1,0 +1,1 @@
+lib/main.dart:20:20 • Generated providers should only depend on other generated providers. Failing to do so may break rules such as "provider_dependencies". • avoid_manual_providers_as_generated_provider_dependency
